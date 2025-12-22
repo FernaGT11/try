@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Estadística con Dados</title>
+    <link rel="stylesheet" href="estadistica.css">
+</head>
+<body>
+
+<div class="encabezado">
+    <strong>Liceo DOR</strong> | 
+    Profesor: Fernando Gaete Toledo | 
+    <a href="mailto:fernando.gaete@liceobicentenariocoelemu.cl">
+        fernando.gaete@liceobicentenariocoelemu.cl
+    </a>
+</div>
+
+<header>
+    <h1>Estadística – Simulación con Dados</h1>
+</header>
+
+<section>
+    <h2>🎲 Parámetros</h2>
+
+    <label>Caras del dado (2–10)</label>
+    <input type="number" id="caras" min="2" max="10" value="6">
+
+    <label>Cantidad de lanzamientos (1–1000)</label>
+    <input type="number" id="lanzamientos" min="1" max="1000" value="100">
+
+    <button onclick="simular()">Simular</button>
+</section>
+
+<section>
+    <h2>📊 Gráfico de frecuencias</h2>
+    <canvas id="grafico" width="600" height="300"></canvas>
+</section>
+
+<section>
+    <h2>📐 Medidas estadísticas</h2>
+    <ul id="estadisticas"></ul>
+</section>
+
+<section>
+    <h2>📋 Tabla de frecuencias</h2>
+    <table id="tabla">
+        <thead>
+            <tr>
+                <th>Resultado</th>
+                <th>Frecuencia</th>
+            </tr>
+        </thead>
+        <tbody></tbody>
+    </table>
+</section>
+
+<script src="estadistica.js"></script>
+</body>
+</html>
