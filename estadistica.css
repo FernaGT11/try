@@ -17,10 +17,6 @@ body {
     text-decoration: none;
 }
 
-.encabezado a:hover {
-    text-decoration: underline;
-}
-
 header {
     background: #34495e;
     color: white;
@@ -32,7 +28,7 @@ section {
     background: white;
     margin: 20px auto;
     padding: 20px;
-    max-width: 700px;
+    max-width: 750px;
     border-radius: 8px;
 }
 
@@ -43,8 +39,7 @@ label {
 
 input {
     width: 100%;
-    padding: 8px;
-    margin-top: 5px;
+    padding: 6px;
 }
 
 button {
@@ -55,10 +50,6 @@ button {
     border: none;
     border-radius: 5px;
     cursor: pointer;
-}
-
-button:hover {
-    background: #1e8449;
 }
 
 canvas {
