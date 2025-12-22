@@ -4,7 +4,7 @@ function simular() {
     const lanzadas = Number(document.getElementById("lanzadas").value);
 
     if (
-        dados < 1 || dados > 20 ||
+        dados < 1 || dados > 10 ||
         caras < 2 || caras > 10 ||
         lanzadas < 1 || lanzadas > 100
     ) {
@@ -13,13 +13,30 @@ function simular() {
     }
 
     const sumas = [];
+    const contenedor = document.getElementById("combinaciones");
+    contenedor.innerHTML = "";
 
-    // Simulación principal
     for (let i = 0; i < lanzadas; i++) {
         let suma = 0;
+        const fila = document.createElement("div");
+        fila.className = "lanzada";
+
         for (let j = 0; j < dados; j++) {
-            suma += Math.floor(Math.random() * caras) + 1;
+            const valor = Math.floor(Math.random() * caras) + 1;
+            suma += valor;
+
+            const dado = document.createElement("div");
+            dado.className = "dado";
+            dado.textContent = valor;
+
+            fila.appendChild(dado);
         }
+
+        const texto = document.createElement("strong");
+        texto.textContent = `Suma = ${suma}`;
+        fila.appendChild(texto);
+
+        contenedor.appendChild(fila);
         sumas.push(suma);
     }
 
@@ -27,7 +44,6 @@ function simular() {
 
     mostrarEstadisticas(sumas);
     dibujarGrafico(sumas);
-    llenarTabla(sumas);
 }
 
 function mostrarEstadisticas(datos) {
@@ -61,7 +77,7 @@ function dibujarGrafico(datos) {
     const frecuencias = {};
     datos.forEach(v => frecuencias[v] = (frecuencias[v] || 0) + 1);
 
-    const valores = Object.keys(frecuencias);
+    const valores = Object.keys(frecuencias).map(Number);
     const max = Math.max(...Object.values(frecuencias));
     const ancho = canvas.width / valores.length;
 
@@ -78,19 +94,5 @@ function dibujarGrafico(datos) {
 
         ctx.fillStyle = "black";
         ctx.fillText(v, i * ancho + ancho / 2, canvas.height - 2);
-    });
-}
-
-function llenarTabla(datos) {
-    const tbody = document.querySelector("#tabla tbody");
-    tbody.innerHTML = "";
-
-    datos.forEach((suma, i) => {
-        tbody.innerHTML += `
-            <tr>
-                <td>${i + 1}</td>
-                <td>${suma}</td>
-            </tr>
-        `;
     });
 }
