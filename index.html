@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Estadística con Dados</title>
+    <link rel="stylesheet" href="estadistica.css">
+</head>
+<body>
+
+<div class="encabezado">
+    <strong>Liceo DOR</strong> |
+    Profesor: Fernando Gaete Toledo |
+    <a href="mailto:fernando.gaete@liceobicentenariocoelemu.cl">
+        fernando.gaete@liceobicentenariocoelemu.cl
+    </a>
+</div>
+
+<header>
+    <h1>Simulación Estadística con Dados</h1>
+</header>
+
+<section>
+    <h2>🎲 Parámetros del experimento</h2>
+
+    <label>Número de dados (1–20)</label>
+    <input type="number" id="dados" min="1" max="20" value="2">
+
+    <label>Caras por dado (2–10)</label>
+    <input type="number" id="caras" min="2" max="10" value="6">
+
+    <label>Número de lanzadas (1–100)</label>
+    <input type="number" id="lanzadas" min="1" max="100" value="50">
+
+    <button onclick="simular()">Simular</button>
+</section>
+
+<section>
+    <h2>📊 Gráfico de sumas obtenidas</h2>
+    <canvas id="grafico" width="650" height="300"></canvas>
+</section>
+
+<section>
+    <h2>📐 Estadísticos de la suma</h2>
+    <ul id="estadisticas"></ul>
+</section>
+
+<section>
+    <h2>📋 Resultados por lanzada</h2>
+    <table id="tabla">
+        <thead>
+            <tr>
+                <th>Lanzada</th>
+                <th>Suma obtenida</th>
+            </tr>
+        </thead>
+        <tbody></tbody>
+    </table>
+</section>
+
+<script src="estadistica.js"></script>
+</body>
+</html>
