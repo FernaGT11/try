@@ -3,9 +3,19 @@ const ctx = canvas.getContext("2d");
 const container = document.getElementById("sim-container");
 
 function resize() {
-    canvas.width = container.clientWidth;
-    canvas.height = container.clientHeight;
+    const dpr = window.devicePixelRatio || 1;
+
+    const rect = container.getBoundingClientRect();
+
+    canvas.width  = rect.width  * dpr;
+    canvas.height = rect.height * dpr;
+
+    canvas.style.width  = rect.width + "px";
+    canvas.style.height = rect.height + "px";
+
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
 }
+
 addEventListener("resize", resize);
 resize();
 
