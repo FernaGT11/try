@@ -45,7 +45,7 @@ function kepler(M, e) {
 
 function drawOrbit(cx, cy, b) {
     ctx.beginPath();
-    ctx.strokeStyle = "#3a4b8a";
+    ctx.strokeStyle = "#5b7bb2";
     ctx.lineWidth = 1.4;
     for (let t = 0; t <= Math.PI * 2.01; t += 0.01) {
         ctx.lineTo(cx + a * Math.cos(t), cy + b * Math.sin(t));
@@ -67,8 +67,8 @@ function draw() {
 
     // Sol
     ctx.beginPath();
-    ctx.fillStyle = "#ffcc55";
-    ctx.shadowColor = "#ffcc55";
+    ctx.fillStyle = "#ffb703";
+    ctx.shadowColor = "#ffb703";
     ctx.shadowBlur = 30;
     ctx.arc(fx, fy, 10, 0, Math.PI * 2);
     ctx.fill();
@@ -85,7 +85,7 @@ function draw() {
         ctx.beginPath();
         ctx.moveTo(fx, fy);
         ctx.lineTo(px, py);
-        ctx.strokeStyle = "rgba(120,180,255,0.22)";
+        ctx.strokeStyle = "rgba(70,130,200,0.35)";
         ctx.lineWidth = 2;
         ctx.stroke();
     }
@@ -96,7 +96,7 @@ function draw() {
     const py = cy + b * Math.sin(E);
 
     ctx.beginPath();
-    ctx.fillStyle = "#8fd3ff";
+    ctx.fillStyle = "#1f7ae0";
     ctx.arc(px, py, 6, 0, Math.PI * 2);
     ctx.fill();
 
