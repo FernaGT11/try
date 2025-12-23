@@ -76,3 +76,50 @@ input[type="range"] {
     opacity: 0.7;
     text-align: center;
 }
+
+/* ==========================
+ *   VERSIÓN MÓVIL
+ *   ========================== */
+@media (max-width: 768px) {
+
+    #topbar {
+    font-size: 11px;
+    padding: 0 6px;
+    text-align: center;
+    flex-wrap: wrap;
+    height: auto;
+    min-height: 40px;
+    }
+
+    #title {
+    font-size: 18px;
+    margin: 6px 0 4px;
+    }
+
+    #sim-container {
+    height: calc(100% - 40px - 32px);
+    }
+
+    /* Controles abajo y a ancho completo */
+    #ui {
+    left: 50%;
+    bottom: 12px;
+    transform: translateX(-50%);
+    width: calc(100% - 24px);
+    max-width: 360px;
+    padding: 14px;
+    border-radius: 14px;
+    }
+
+    label {
+        font-size: 13px;
+    }
+
+    input[type="range"] {
+        height: 28px;
+    }
+
+    .note {
+        font-size: 11px;
+    }
+}
