@@ -3,19 +3,9 @@ const ctx = canvas.getContext("2d");
 const container = document.getElementById("sim-container");
 
 function resize() {
-    const dpr = window.devicePixelRatio || 1;
-
-    const rect = container.getBoundingClientRect();
-
-    canvas.width  = rect.width  * dpr;
-    canvas.height = rect.height * dpr;
-
-    canvas.style.width  = rect.width + "px";
-    canvas.style.height = rect.height + "px";
-
-    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    canvas.width = container.clientWidth;
+    canvas.height = container.clientHeight;
 }
-
 addEventListener("resize", resize);
 resize();
 
@@ -55,8 +45,8 @@ function kepler(M, e) {
 
 function drawOrbit(cx, cy, b) {
     ctx.beginPath();
-    ctx.strokeStyle = "#5b7bb2";
-    ctx.lineWidth = 1.4;
+    ctx.strokeStyle = "#8fa4d6";
+    ctx.lineWidth = 1.5;
     for (let t = 0; t <= Math.PI * 2.01; t += 0.01) {
         ctx.lineTo(cx + a * Math.cos(t), cy + b * Math.sin(t));
     }
@@ -79,7 +69,7 @@ function draw() {
     ctx.beginPath();
     ctx.fillStyle = "#ffb703";
     ctx.shadowColor = "#ffb703";
-    ctx.shadowBlur = 30;
+    ctx.shadowBlur = 20;
     ctx.arc(fx, fy, 10, 0, Math.PI * 2);
     ctx.fill();
     ctx.shadowBlur = 0;
@@ -95,7 +85,7 @@ function draw() {
         ctx.beginPath();
         ctx.moveTo(fx, fy);
         ctx.lineTo(px, py);
-        ctx.strokeStyle = "rgba(70,130,200,0.35)";
+        ctx.strokeStyle = "rgba(0,100,200,0.25)";
         ctx.lineWidth = 2;
         ctx.stroke();
     }
@@ -106,7 +96,7 @@ function draw() {
     const py = cy + b * Math.sin(E);
 
     ctx.beginPath();
-    ctx.fillStyle = "#1f7ae0";
+    ctx.fillStyle = "#1e88e5";
     ctx.arc(px, py, 6, 0, Math.PI * 2);
     ctx.fill();
 
