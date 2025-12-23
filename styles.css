@@ -1,0 +1,78 @@
+html, body {
+    margin: 0;
+    height: 100%;
+    background: radial-gradient(circle, #0b1020, #02030a);
+    color: #eaeaf0;
+    font-family: system-ui, Segoe UI, sans-serif;
+}
+
+/* Barra institucional */
+#topbar {
+height: 42px;
+display: flex;
+align-items: center;
+justify-content: center;
+gap: 10px;
+
+background: rgba(15, 18, 35, 0.95);
+backdrop-filter: blur(8px);
+font-size: 13px;
+box-shadow: 0 2px 12px rgba(0,0,0,0.6);
+}
+
+#topbar .sep {
+opacity: 0.4;
+}
+
+/* Título principal */
+#title {
+margin: 10px 0 6px;
+text-align: center;
+font-size: 24px;
+font-weight: 600;
+}
+
+/* Contenedor del simulador */
+#sim-container {
+position: relative;
+height: calc(100% - 42px - 46px);
+}
+
+/* Canvas */
+canvas {
+    display: block;
+    width: 100%;
+    height: 100%;
+}
+
+/* Controles dentro del simulador */
+#ui {
+position: absolute;
+left: 24px;
+bottom: 24px;
+width: 260px;
+
+background: rgba(18, 22, 40, 0.80);
+backdrop-filter: blur(10px);
+
+padding: 16px;
+border-radius: 16px;
+box-shadow: 0 0 30px rgba(0,0,0,0.6);
+}
+
+label {
+    display: block;
+    font-size: 14px;
+    margin-top: 12px;
+}
+
+input[type="range"] {
+    width: 100%;
+}
+
+.note {
+    margin-top: 12px;
+    font-size: 12px;
+    opacity: 0.7;
+    text-align: center;
+}
