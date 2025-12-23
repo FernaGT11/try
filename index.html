@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Primera y Segunda Ley de Kepler</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+
+<header id="topbar">
+    <span>LICEO DOMMINGO ORTIZ DE ROZAS</span>
+    <span class="sep">•</span>
+    <span>Profesor: Fernando Gaete Toledo</span>
+    <span class="sep">•</span>
+    <span>Contacto:
+        <a href="mailto:fernando.gaete@liceobicentenariocoelemu.cl">
+            fernando.gaete@liceobicentenariocoelemu.cl
+    </a>
+    </span>
+</header>
+
+<h1 id="title">PRIMERA Y SEGUNDA LEY DE KEPLER</h1>
+
+<div id="sim-container">
+    <canvas id="canvas"></canvas>
+
+    <!-- Controles dentro del simulador -->
+    <div id="ui">
+        <label>
+            Excentricidad:
+            <span id="eVal">0.50</span>
+            <input id="ecc" type="range" min="0" max="0.9" step="0.01" value="0.5">
+        </label>
+
+        <label>
+            Velocidad del tiempo:
+            <span id="vVal">1.0</span>x
+            <input id="speed" type="range" min="0.2" max="3" step="0.1" value="1">
+        </label>
+
+        <div class="note">
+            Cada línea ≈ 1 mes<br>
+            Áreas iguales → tiempos iguales
+        </div>
+    </div>
+</div>
+
+<script src="kepler.js"></script>
+</body>
+</html>
