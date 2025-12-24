@@ -5,108 +5,17 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Segunda Ley de Kepler</title>
 
-<style>
-html,body{
-    margin:0;
-    background:#f4f6fb;
-    color:#1a1d2a;
-    font-family: system-ui,Segoe UI,sans-serif;
-    overflow:hidden;
-}
-
-/* ================= HEADER ================= */
-#header{
-    position:fixed;
-    top:0; left:0;
-    width:100%;
-    background:#ffffffee;
-    backdrop-filter: blur(6px);
-    box-shadow:0 3px 10px rgba(0,0,0,.12);
-    padding:6px 10px;
-    font-size:13px;
-    text-align:center;
-    z-index:10;
-    line-height:1.3;
-}
-
-#header span{
-    margin:0 8px;
-}
-
-@media (max-width:600px){
-    #header{
-        font-size:11px;
-    }
-    #header span{
-        display:block;
-        margin:2px 0;
-    }
-}
-
-/* ================= CONTROLES ================= */
-#ui{
-    position:fixed;
-    bottom:0; left:0;
-    width:100%;
-    background:#ffffffee;
-    backdrop-filter: blur(6px);
-    box-shadow:0 -4px 14px rgba(0,0,0,.15);
-    padding:10px 14px;
-    display:flex;
-    gap:18px;
-    align-items:center;
-    box-sizing:border-box;
-    z-index:10;
-}
-
-#ui h1{
-    font-size:14px;
-    margin:0;
-    white-space:nowrap;
-}
-
-.control{
-    min-width:180px;
-}
-
-label{
-    font-size:12px;
-}
-
-input[type=range]{
-    width:100%;
-    height:28px;
-}
-
-@media (max-width:600px){
-    #ui{
-        flex-direction:column;
-        align-items:stretch;
-        gap:10px;
-    }
-    #ui h1{
-        text-align:center;
-    }
-    .control{
-        min-width:100%;
-    }
-}
-
-/* ================= CANVAS ================= */
-canvas{
-    display:block;
-}
-</style>
+<link rel="stylesheet" href="styles.css">
 </head>
 
 <body>
 
 <div id="header">
-    <span>LICEO DOMINGO ORTIZ DE ROZAS</span>
+    <span><b>LICEO DOMINGO ORTIZ DE ROZAS</b></span>
     <span>Profesor: Fernando Gaete Toledo</span>
     <span>Contacto: fernando.gaete@liceobicentenariocoelemu.cl</span>
 </div>
-
+<h1 style="text-align:center; width:100%;">Segunda Ley de Kepler</h1>
 <canvas id="canvas"></canvas>
 
 <div id="ui">
@@ -123,117 +32,6 @@ canvas{
     </div>
 </div>
 
-<script>
-const canvas = document.getElementById("canvas");
-const ctx = canvas.getContext("2d");
-const header = document.getElementById("header");
-const ui = document.getElementById("ui");
-
-/* Ajuste dinámico del canvas */
-function resize(){
-    canvas.width = innerWidth;
-    canvas.height = innerHeight - header.offsetHeight - ui.offsetHeight;
-    canvas.style.position = "absolute";
-    canvas.style.top = header.offsetHeight + "px";
-}
-addEventListener("resize", resize);
-resize();
-
-/* Controles */
-const ecc = document.getElementById("ecc");
-const speedSlider = document.getElementById("speed");
-const eVal = document.getElementById("eVal");
-const vVal = document.getElementById("vVal");
-
-let e = +ecc.value;
-let speed = +speedSlider.value;
-
-ecc.oninput = () => {
-    e = +ecc.value;
-    eVal.textContent = e.toFixed(2);
-};
-
-speedSlider.oninput = () => {
-    speed = +speedSlider.value;
-    vVal.textContent = speed.toFixed(1);
-};
-
-/* Tamaño de la órbita: PC vs celular */
-function getA(){
-    let base = 240;        // computador / tablet
-    if(innerWidth <= 600){
-        base = 180;        // celular (más pequeño)
-    }
-    return base;
-}
-
-/* Parámetros orbitales */
-const months = 12;
-const dM = 2*Math.PI / months;
-let M0 = 0;
-
-/* Ecuación de Kepler */
-function kepler(M,e){
-    let E = M;
-    for(let i=0;i<8;i++){
-        E -= (E - e*Math.sin(E) - M)/(1 - e*Math.cos(E));
-    }
-    return E;
-}
-
-/* Dibujo principal */
-function draw(){
-    ctx.clearRect(0,0,canvas.width,canvas.height);
-
-    const a = getA();
-    const cx = canvas.width/2;
-    const cy = canvas.height/2;
-    const b = a*Math.sqrt(1-e*e);
-    const fx = cx + a*e;
-    const fy = cy;
-
-    /* Órbita */
-    ctx.beginPath();
-    ctx.strokeStyle="#5c6fd6";
-    ctx.lineWidth=1.3;
-    for(let t=0;t<=Math.PI*2.01;t+=0.01){
-        ctx.lineTo(cx + a*Math.cos(t), cy + b*Math.sin(t));
-    }
-    ctx.stroke();
-
-    /* Sol */
-    ctx.beginPath();
-    ctx.fillStyle="#ffb703";
-    ctx.shadowColor="#ffb703";
-    ctx.shadowBlur=14;
-    ctx.arc(fx,fy,8,0,Math.PI*2);
-    ctx.fill();
-    ctx.shadowBlur=0;
-
-    /* Rayos mensuales */
-    for(let i=0;i<months;i++){
-        const Ei = kepler(M0 + i*dM,e);
-        ctx.beginPath();
-        ctx.moveTo(fx,fy);
-        ctx.lineTo(cx + a*Math.cos(Ei), cy + b*Math.sin(Ei));
-        ctx.strokeStyle="rgba(90,130,255,0.3)";
-        ctx.lineWidth=2;
-        ctx.stroke();
-    }
-
-    /* Planeta */
-    const E = kepler(M0,e);
-    ctx.beginPath();
-    ctx.fillStyle="#1f77ff";
-    ctx.arc(cx + a*Math.cos(E), cy + b*Math.sin(E),6,0,Math.PI*2);
-    ctx.fill();
-
-    M0 += speed * 0.015;
-    requestAnimationFrame(draw);
-}
-
-draw();
-</script>
-
+<script src="kepler2.js"></script>
 </body>
 </html>
