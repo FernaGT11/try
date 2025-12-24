@@ -1,51 +1,231 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <title>Primera y Segunda Ley de Kepler</title>
-    <link rel="stylesheet" href="styles.css">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Segunda Ley de Kepler</title>
+
+<style>
+html,body{
+    margin:0;
+    background:#f4f6fb;
+    color:#1a1d2a;
+    font-family: system-ui,Segoe UI,sans-serif;
+    overflow:hidden;
+}
+
+/* ===== Encabezado fijo ===== */
+#header{
+    position:fixed;
+    top:0;
+    left:0;
+    width:100%;
+    background:#ffffffee;
+    backdrop-filter: blur(6px);
+    box-shadow:0 3px 12px rgba(0,0,0,.12);
+    padding:8px 12px;
+    font-size:13px;
+    text-align:center;
+    white-space:nowrap;
+    overflow:hidden;
+    text-overflow:ellipsis;
+    z-index:10;
+}
+
+/* Ajuste tipográfico en móviles */
+@media (max-width:600px){
+    #header{
+        font-size:11px;
+        padding:6px 8px;
+    }
+}
+
+/* ===== Barra inferior ===== */
+#ui{
+    position:fixed;
+    bottom:0;
+    left:0;
+    width:100%;
+    background:rgba(255,255,255,.94);
+    backdrop-filter: blur(6px);
+    padding:8px 14px;
+    box-shadow:0 -4px 14px rgba(0,0,0,.15);
+    display:flex;
+    gap:18px;
+    align-items:center;
+    box-sizing:border-box;
+    z-index:10;
+}
+
+#ui h1{
+    font-size:14px;
+    margin:0;
+    white-space:nowrap;
+}
+
+.control{
+    min-width:180px;
+}
+
+label{
+    font-size:12px;
+    display:block;
+}
+
+input[type=range]{
+    width:100%;
+}
+
+.note{
+    font-size:11px;
+    opacity:.7;
+    white-space:nowrap;
+}
+
+/* Canvas */
+canvas{
+    display:block;
+}
+</style>
 </head>
 
 <body>
 
-<header id="topbar">
-    <span>Liceo Domingo Ortiz de Rozas</span>
-    <span class="sep">•</span>
-    <span>Profesor: Fernando Gaete Toledo</span>
-    <span class="sep">•</span>
-    <span>
-        Contacto:
-        <a href="mailto:fernando.gaete@liceobicentenariocoelemu.cl">
+<div id="header">
+    LICEO DOMINGO ORTIZ DE ROZAS · Profesor: Fernando Gaete Toledo · Contacto:  <a href="mailto:fernando.gaete@liceobicentenariocoelemu.cl">
             fernando.gaete@liceobicentenariocoelemu.cl
         </a>
-    </span>
-</header>
+</div>
 
-<h1 id="title">Primera y Segunda ley de Kepler</h1>
+<canvas id="canvas"></canvas>
 
-<div id="sim-container">
-    <canvas id="canvas"></canvas>
+<div id="ui">
+    <h1>Segunda Ley de Kepler</h1>
 
-    <div id="ui">
-        <label>
-            Excentricidad:
-            <span id="eVal">0.50</span>
-            <input id="ecc" type="range" min="0" max="0.9" step="0.01" value="0.5">
-        </label>
+    <div class="control">
+        <label>Excentricidad: <span id="eVal">0.50</span></label>
+        <input id="ecc" type="range" min="0" max="0.95" step="0.01" value="0.5">
+    </div>
 
-        <label>
-            Velocidad del tiempo:
-            <span id="vVal">1.0</span>x
-            <input id="speed" type="range" min="0.2" max="3" step="0.1" value="1">
-        </label>
+    <div class="control">
+        <label>Velocidad del tiempo: <span id="vVal">1.0</span>x</label>
+        <input id="speed" type="range" min="0.2" max="3" step="0.1" value="1">
+    </div>
 
-        <div class="note">
-            Cada línea ≈ 1 mes<br>
-            Áreas iguales → tiempos iguales
-        </div>
+    <div class="note">
+        12 meses · áreas iguales
     </div>
 </div>
 
-<script src="kepler.js"></script>
+<script>
+const canvas = document.getElementById("canvas");
+const ctx = canvas.getContext("2d");
+const header = document.getElementById("header");
+const ui = document.getElementById("ui");
+
+function resize(){
+    canvas.width = innerWidth;
+    canvas.height = innerHeight - header.offsetHeight - ui.offsetHeight;
+    canvas.style.position = "absolute";
+    canvas.style.top = header.offsetHeight + "px";
+}
+addEventListener("resize", resize);
+resize();
+
+const ecc = document.getElementById("ecc");
+const speedSlider = document.getElementById("speed");
+const eVal = document.getElementById("eVal");
+const vVal = document.getElementById("vVal");
+
+let e = +ecc.value;
+let speed = +speedSlider.value;
+
+ecc.oninput = () => {
+    e = +ecc.value;
+    eVal.textContent = e.toFixed(2);
+};
+
+speedSlider.oninput = () => {
+    speed = +speedSlider.value;
+    vVal.textContent = speed.toFixed(1);
+};
+
+const a = 240;
+const months = 12;
+const dM = 2*Math.PI / months;
+let M0 = 0;
+
+function kepler(M,e){
+    let E = M;
+    for(let i=0;i<8;i++){
+        E -= (E - e*Math.sin(E) - M)/(1 - e*Math.cos(E));
+    }
+    return E;
+}
+
+function drawOrbit(cx,cy,b){
+    ctx.beginPath();
+    ctx.strokeStyle="#5c6fd6";
+    ctx.lineWidth=1.3;
+    for(let t=0;t<=Math.PI*2.01;t+=0.01){
+        ctx.lineTo(cx + a*Math.cos(t), cy + b*Math.sin(t));
+    }
+    ctx.stroke();
+}
+
+function draw(){
+    ctx.clearRect(0,0,canvas.width,canvas.height);
+
+    const cx = canvas.width/2;
+    const cy = canvas.height/2;
+    const b = a*Math.sqrt(1-e*e);
+
+    const fx = cx + a*e;
+    const fy = cy;
+
+    drawOrbit(cx,cy,b);
+
+    // Sol
+    ctx.beginPath();
+    ctx.fillStyle="#ffb703";
+    ctx.shadowColor="#ffb703";
+    ctx.shadowBlur=16;
+    ctx.arc(fx,fy,8,0,Math.PI*2);
+    ctx.fill();
+    ctx.shadowBlur=0;
+
+    // Rayos mensuales
+    for(let i=0;i<months;i++){
+        const Mi = M0 + i*dM;
+        const Ei = kepler(Mi,e);
+
+        const px = cx + a*Math.cos(Ei);
+        const py = cy + b*Math.sin(Ei);
+
+        ctx.beginPath();
+        ctx.moveTo(fx,fy);
+        ctx.lineTo(px,py);
+        ctx.strokeStyle="rgba(90,130,255,0.28)";
+        ctx.lineWidth=2;
+        ctx.stroke();
+    }
+
+    // Planeta
+    const E = kepler(M0,e);
+    const px = cx + a*Math.cos(E);
+    const py = cy + b*Math.sin(E);
+
+    ctx.beginPath();
+    ctx.fillStyle="#1f77ff";
+    ctx.arc(px,py,6,0,Math.PI*2);
+    ctx.fill();
+
+    M0 += speed * 0.015;
+    requestAnimationFrame(draw);
+}
+
+draw();
+</script>
+
 </body>
 </html>
