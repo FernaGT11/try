@@ -82,12 +82,7 @@ input[type=range]{
     align-items:stretch;
     gap:10px;
     }
-    #ui h1{
-    text-align:center;
-    }
-    .control{
-        min-width:100%;
-    }
+
 }
 
 /* ================= CANVAS ================= */
